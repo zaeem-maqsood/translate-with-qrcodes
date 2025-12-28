@@ -8,6 +8,22 @@
   <!-- Bootstrap CSS -->
   <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
 
+  <!-- Select2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <style>
+    /* Custom styling for Select2 to match Bootstrap input height */
+    .select2-container .select2-selection--single {
+        height: 38px;
+        border: 1px solid #ced4da;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: 36px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 36px;
+    }
+  </style>
+
 </head>
 <body>
 
@@ -26,7 +42,7 @@
         </div>
         <div class="form-group">
           <label for="languageSelect">Select Language</label>
-          <select class="form-control" id="targetLanguage" name="targetLanguage">
+          <select class="form-control" id="targetLanguage" name="targetLanguage" style="width: 100%;">
             {% for language in languages %}
               <option value="{{ language.language }}">{{ language.name }}</option>
             {% endfor %}
@@ -35,13 +51,48 @@
         <button type="submit" class="btn btn-primary">Translate and Generate QR Code</button>
       </form>
       
+      {% if translated_string %}
+      <div class="mt-4 alert alert-success">
+          <h4>Translation Result:</h4>
+          <p class="lead">{{ translated_string.translatedText }}</p>
+          <p class="text-muted small">Detected Source Language: {{ translated_string.detectedSourceLanguage }}</p>
+      </div>
+      {% endif %}
+
+      {% if qr_code %}
+      <div class="mt-4 text-center">
+        <h4>Scan QR Code to View</h4>
+        <!-- We need to modify the view to return the image URL or base64, currently it returns a download attachment -->
+        <!-- Since the current view returns an attachment response directly, we can't easily embed it here without changing the flow. -->
+        <!-- However, the user flow seems to be that they submit and get a file download. -->
+        <p>The QR code was generated and downloaded.</p>
+      </div>
+      {% endif %}
+      
+      {% if error %}
+      <div class="alert alert-danger mt-3">
+          {{ error }}
+      </div>
+      {% endif %}
     </div>
     <!-- End of form -->
   </div>
 
   <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- jQuery full version (required for Select2) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+  <!-- Select2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  
+  <script>
+      $(document).ready(function() {
+          $('#targetLanguage').select2({
+              placeholder: "Search for a language...",
+              allowClear: true
+          });
+      });
+  </script>
 </body>
 </html>

@@ -112,9 +112,8 @@ def hello_world(request):
             )
             print(f"Translated string: {translated_string}")
 
-            current_site = Site.objects.get_current()
-            domain = os.environ.get("APP_DOMAIN", current_site.domain)
-            scheme = os.environ.get("APP_SCHEME", "http")
+            domain = request.get_host()
+            scheme = request.scheme
 
             # Save translation to database
             translation = Translation.objects.create(

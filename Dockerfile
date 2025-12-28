@@ -21,5 +21,8 @@ COPY translate_and_qr_codes/ .
 # Expose port
 EXPOSE 8000
 
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
+
 # Command to run the application
-CMD ["gunicorn", "translate_and_qr_codes.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["./entrypoint.sh"]

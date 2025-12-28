@@ -19,17 +19,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
+import os
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-s(u0%p1uc@_i0zo@tvthqvjdi31l+r#+ky-m=b()apw(d&dp9o"
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-s(u0%p1uc@_i0zo@tvthqvjdi31l+r#+ky-m=b()apw(d&dp9o")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["django-env.eba-cz7xavrh.us-west-2.elasticbeanstalk.com", "127.0.0.1"]
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
 
-CSRF_TRUSTED_ORIGINS = [
-    "http://django-env.eba-cz7xavrh.us-west-2.elasticbeanstalk.com/"
-]
+CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "http://django-env.eba-cz7xavrh.us-west-2.elasticbeanstalk.com/").split(",")
 
 # Application definition
 

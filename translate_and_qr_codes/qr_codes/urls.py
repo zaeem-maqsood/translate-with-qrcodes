@@ -5,5 +5,5 @@ from . import views
 app_name = "qr_codes"
 urlpatterns = [
     path("", views.hello_world, name="home"),
-    path("read", views.read_qr_code_contents, name="read"),
+    path("read/<uuid:pk>/", views.read_qr_code_contents, name="read"),
 ]

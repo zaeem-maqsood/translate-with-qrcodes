@@ -33,6 +33,7 @@ if ALLOWED_HOSTS == ["*"]:
     ALLOWED_HOSTS = ["*"]
 
 CSRF_TRUSTED_ORIGINS = [url.strip() for url in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if url.strip()]
+CSRF_TRUSTED_ORIGINS.append("https://*.ondigitalocean.app")
 
 # Application definition
 

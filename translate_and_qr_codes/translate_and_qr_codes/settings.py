@@ -27,9 +27,12 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-s(u0%p1uc@_i0zo@tvthq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
+# Default to allow all if the env var was just a "*"
+if ALLOWED_HOSTS == ["*"]:
+    ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = os.environ.get("CSRF_TRUSTED_ORIGINS", "http://django-env.eba-cz7xavrh.us-west-2.elasticbeanstalk.com/").split(",")
+CSRF_TRUSTED_ORIGINS = [url for url in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if url]
 
 # Application definition
 

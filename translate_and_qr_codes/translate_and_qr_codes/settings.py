@@ -32,7 +32,7 @@ ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "*").split(",")
 if ALLOWED_HOSTS == ["*"]:
     ALLOWED_HOSTS = ["*"]
 
-CSRF_TRUSTED_ORIGINS = [url for url in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if url]
+CSRF_TRUSTED_ORIGINS = [url.strip() for url in os.environ.get("CSRF_TRUSTED_ORIGINS", "").split(",") if url.strip()]
 
 # Application definition
 
